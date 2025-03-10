@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações - Mulakintola</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 dark:bg-gray-900">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">Configurações</h1>
+
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Conta</h2>
+            <div class="mb-6">
+                <div id="userInfo" class="flex items-center mb-4">
+                    <img id="userAvatar" class="w-12 h-12 rounded-full mr-4" src="" alt="Avatar">
+                    <div>
+                        <p id="userName" class="text-lg font-medium text-gray-900 dark:text-white"></p>
+                        <p id="userEmail" class="text-sm text-gray-600 dark:text-gray-400"></p>
+                    </div>
+                </div>
+                <button id="logoutBtn" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
+                    Sair da conta
+                </button>
+            </div>
+
+            <hr class="my-6 border-gray-200 dark:border-gray-700">
+
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Assinatura</h2>
+            <div id="subscriptionInfo" class="mb-6">
+                <p class="text-gray-600 dark:text-gray-400 mb-2">Plano atual: <span id="currentPlan" class="font-medium"></span></p>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">Válido até: <span id="planExpiry" class="font-medium"></span></p>
+                <button id="managePlanBtn" class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded">
+                    Gerenciar assinatura
+                </button>
+            </div>
+
+            <hr class="my-6 border-gray-200 dark:border-gray-700">
+
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Preferências</h2>
+            <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                    <label class="text-gray-700 dark:text-gray-300">Tema escuro</label>
+                    <label class="switch">
+                        <input type="checkbox" id="darkModeToggle">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div class="flex items-center justify-between">
+                    <label class="text-gray-700 dark:text-gray-300">Notificações</label>
+                    <label class="switch">
+                        <input type="checkbox" id="notificationsToggle">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 text-center">
+            <p class="text-sm text-gray-600 dark:text-gray-400">Mulakintola v1.0.0</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                <a href="#" class="text-indigo-500 hover:text-indigo-600">Política de Privacidade</a> • 
+                <a href="#" class="text-indigo-500 hover:text-indigo-600">Termos de Uso</a>
+            </p>
+        </div>
+    </div>
+
+    <style>
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+        }
+
+        input:checked + .slider {
+            background-color: #4F46E5;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+    </style>
+
+    <script src="../scripts/settings.js"></script>
+</body>
+</html> 

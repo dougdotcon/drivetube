@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assinatura - Mulakintola</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900">
+    <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                    Escolha seu Plano
+                </h1>
+                <p class="text-xl text-gray-600 dark:text-gray-400">
+                    Desbloqueie todo o potencial do Mulakintola
+                </p>
+            </div>
+
+            <!-- Plans Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Basic Plan -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <div class="px-6 py-8">
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                            Básico
+                        </h3>
+                        <div class="flex items-baseline mb-6">
+                            <span class="text-4xl font-bold text-gray-900 dark:text-white">$2</span>
+                            <span class="text-gray-600 dark:text-gray-400 ml-2">/mês</span>
+                        </div>
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-gray-600 dark:text-gray-400">Acesso ilimitado a vídeos</span>
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-gray-600 dark:text-gray-400">Suporte por email</span>
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-gray-600 dark:text-gray-400">Atualizações de segurança</span>
+                            </li>
+                        </ul>
+                        <div class="space-y-4">
+                            <button onclick="handleStripePayment('basic')" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+                                Assinar com Cartão
+                            </button>
+                            <button onclick="showCryptoPayment('basic')" class="w-full bg-gray-800 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors">
+                                Pagar com Crypto
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pro Plan -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden border-2 border-blue-500">
+                    <div class="px-6 py-8">
+                        <div class="absolute top-0 right-0 bg-blue-500 text-white px-4 py-1 rounded-bl-lg">
+                            Popular
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                            Pro
+                        </h3>
+                        <div class="flex items-baseline mb-6">
+                            <span class="text-4xl font-bold text-gray-900 dark:text-white">$5</span>
+                            <span class="text-gray-600 dark:text-gray-400 ml-2">/mês</span>
+                        </div>
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-gray-600 dark:text-gray-400">Tudo do plano Básico</span>
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-gray-600 dark:text-gray-400">Download de vídeos</span>
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-gray-600 dark:text-gray-400">Suporte prioritário</span>
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-gray-600 dark:text-gray-400">Recursos avançados</span>
+                            </li>
+                        </ul>
+                        <div class="space-y-4">
+                            <button onclick="handleStripePayment('pro')" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+                                Assinar com Cartão
+                            </button>
+                            <button onclick="showCryptoPayment('pro')" class="w-full bg-gray-800 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors">
+                                Pagar com Crypto
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Enterprise Plan -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                    <div class="px-6 py-8">
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                            Empresarial
+                        </h3>
+                        <div class="flex items-baseline mb-6">
+                            <span class="text-4xl font-bold text-gray-900 dark:text-white">$10</span>
+                            <span class="text-gray-600 dark:text-gray-400 ml-2">/mês</span>
+                        </div>
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-gray-600 dark:text-gray-400">Tudo do plano Pro</span>
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-gray-600 dark:text-gray-400">API dedicada</span>
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-gray-600 dark:text-gray-400">Suporte 24/7</span>
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-gray-600 dark:text-gray-400">Recursos personalizados</span>
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-gray-600 dark:text-gray-400">Treinamento exclusivo</span>
+                            </li>
+                        </ul>
+                        <div class="space-y-4">
+                            <button onclick="handleStripePayment('enterprise')" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+                                Assinar com Cartão
+                            </button>
+                            <button onclick="showCryptoPayment('enterprise')" class="w-full bg-gray-800 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors">
+                                Pagar com Crypto
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Crypto Payment Modal -->
+    <div id="cryptoModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+        <div class="bg-white dark:bg-gray-800 rounded-lg p-8 max-w-md w-full mx-4">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                Pagamento com Criptomoeda
+            </h2>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Selecione a moeda
+                    </label>
+                    <select id="cryptoCurrency" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700">
+                        <option value="BNB">BNB</option>
+                        <option value="USDT">USDT</option>
+                        <option value="BTC">BTC</option>
+                        <option value="ETH">ETH</option>
+                        <option value="QANX">QANX</option>
+                        <option value="RON">RON</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Hash da Transação
+                    </label>
+                    <input type="text" id="transactionHash" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700" placeholder="Cole o hash da sua transação">
+                </div>
+                <div class="flex justify-end space-x-4">
+                    <button onclick="closeCryptoModal()" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white">
+                        Cancelar
+                    </button>
+                    <button onclick="verifyCryptoPayment()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                        Verificar Pagamento
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../services/stripeService.js"></script>
+    <script src="../services/cryptoVerification.js"></script>
+    <script>
+        let currentPlan = null;
+
+        async function handleStripePayment(planId) {
+            try {
+                const sessionId = await StripeService.createCheckoutSession(planId);
+                const stripe = Stripe(process.env.STRIPE_PUBLIC_KEY);
+                await stripe.redirectToCheckout({ sessionId });
+            } catch (error) {
+                console.error('Erro no pagamento:', error);
+                alert('Erro ao processar pagamento. Tente novamente.');
+            }
+        }
+
+        function showCryptoPayment(planId) {
+            currentPlan = planId;
+            document.getElementById('cryptoModal').classList.remove('hidden');
+            document.getElementById('cryptoModal').classList.add('flex');
+        }
+
+        function closeCryptoModal() {
+            document.getElementById('cryptoModal').classList.add('hidden');
+            document.getElementById('cryptoModal').classList.remove('flex');
+            currentPlan = null;
+        }
+
+        async function verifyCryptoPayment() {
+            const hash = document.getElementById('transactionHash').value;
+            const currency = document.getElementById('cryptoCurrency').value;
+
+            if (!hash) {
+                alert('Por favor, insira o hash da transação');
+                return;
+            }
+
+            try {
+                const verification = await CryptoVerificationService.verifyTransaction(
+                    currentPlan,
+                    hash,
+                    currency
+                );
+
+                if (verification.isValid) {
+                    alert('Pagamento confirmado! Sua assinatura foi ativada.');
+                    closeCryptoModal();
+                    window.location.reload();
+                } else {
+                    alert(verification.message);
+                }
+            } catch (error) {
+                console.error('Erro na verificação:', error);
+                alert('Erro ao verificar pagamento. Tente novamente.');
+            }
+        }
+    </script>
+</body>
+</html> 
