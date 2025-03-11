@@ -23,18 +23,43 @@
 
 ## ✨ Funcionalidades
 
-- 🔐 **Autenticação Segura** - Login integrado com Google OAuth
-- 📁 **Organização Inteligente** - Listagem de vídeos organizados por pastas
-- 🎥 **Player Integrado** - Reprodução de vídeos diretamente na interface
-- 📱 **Design Responsivo** - Interface adaptável para todos os dispositivos
-- 🌓 **Tema Adaptativo** - Suporte a temas claro e escuro
-- 💾 **Cache Local** - Carregamento rápido de conteúdo já visualizado
-- 🔄 **Sincronização Multi-plataforma** - Integração com Proton Drive
-- 🤖 **Bot do Telegram** - Integração para notificações e controle (Beta)
-- 📂 **Explorador de Arquivos** - Acesso a arquivos locais do sistema
-- 🎨 **UI/UX Moderna** - Interface intuitiva com componentes reutilizáveis
-- 🔍 **Busca Avançada** - Pesquisa em arquivos locais e na nuvem
-- 🔔 **Notificações** - Sistema de toast notifications para feedback
+### 🎥 Vídeos e Mídia
+- **Player Universal** - Reprodução de vídeos do Google Drive, Proton Drive e sistema local
+- **Visualização Local** - Acesso e reprodução de vídeos armazenados no computador
+- **Streaming Otimizado** - Carregamento adaptativo para melhor performance
+- **Controles Avançados** - Velocidade, qualidade, legendas e marcadores
+- **Formatos Suportados** - MP4, MKV, AVI, WebM e outros formatos populares
+- **Miniaturas** - Geração automática de thumbnails para vídeos
+- **Histórico** - Registro de vídeos assistidos e progresso
+
+### 📁 Gerenciamento de Arquivos
+- **Organização Inteligente** - Listagem organizada por pastas e categorias
+- **Multi-plataforma** - Integração com Google Drive e Proton Drive
+- **Explorador Local** - Acesso a arquivos do sistema com interface moderna
+- **Busca Avançada** - Pesquisa em todas as fontes de arquivos
+- **Favoritos** - Marcação de itens para acesso rápido
+
+### 🔐 Segurança e Acesso
+- **Autenticação Segura** - Login via Google OAuth
+- **Permissões** - Controle granular de acesso a arquivos
+- **Criptografia** - Suporte a arquivos criptografados do Proton Drive
+- **Logs** - Registro de atividades e acessos
+
+### 💻 Interface e Usabilidade
+- **Design Responsivo** - Adaptação para todos os dispositivos
+- **Tema Adaptativo** - Modos claro e escuro
+- **Toast Notifications** - Sistema de feedback visual
+- **Atalhos** - Controles de teclado para navegação rápida
+
+### 🔄 Integração e Extensibilidade
+- **Bot Telegram** - Notificações e controle remoto (Beta)
+- **Extensão Chrome** - Acesso rápido via navegador
+- **API Documentada** - Endpoints para integração externa
+
+### ⚡ Performance
+- **Cache Local** - Armazenamento inteligente de conteúdo
+- **Lazy Loading** - Carregamento sob demanda
+- **Compressão** - Otimização de transferência de dados
 
 ## 🛠️ Tecnologias
 
