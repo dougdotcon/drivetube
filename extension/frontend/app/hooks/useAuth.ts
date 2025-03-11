@@ -1,73 +1,90 @@
 'use client'
 
-import { create } from 'zustand'
+import { useState, useEffect, createContext, useContext } from 'react'
+import { api } from '@/lib/api'
 import { User } from '../types/user'
 import * as authService from '../services/auth'
 
-interface AuthState {
+interface AuthContextType {
   user: User | null
-  isAuthenticated: boolean
-  isLoading: boolean
-  error: string | null
   login: (email: string, password: string) => Promise<void>
   register: (name: string, email: string, password: string) => Promise<void>
-  googleAuth: (token: string, name: string, email: string, picture: string) => Promise<void>
   logout: () => void
-  clearError: () => void
+  loading: boolean
 }
 
-export const useAuth = create<AuthState>((set) => ({
-  user: typeof window !== 'undefined' ? authService.getUser() : null,
-  isAuthenticated: typeof window !== 'undefined' ? authService.isAuthenticated() : false,
-  isLoading: false,
-  error: null,
+const AuthContext = createContext<AuthContextType>({} as AuthContextType)
 
-  login: async (email: string, password: string) => {
-    try {
-      set({ isLoading: true, error: null })
-      const response = await authService.login({ email, password })
-      authService.setToken(response.token)
-      authService.setUser(response.user)
-      set({ user: response.user, isAuthenticated: true })
-    } catch (error: any) {
-      set({ error: error.response?.data?.error || 'Erro ao fazer login' })
-    } finally {
-      set({ isLoading: false })
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [user, setUser] = useState<User | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      api.defaults.headers.authorization = `Bearer ${token}`
+      validateToken()
+    } else {
+      setLoading(false)
     }
-  },
+  }, [])
 
-  register: async (name: string, email: string, password: string) => {
+  const validateToken = async () => {
     try {
-      set({ isLoading: true, error: null })
-      const response = await authService.register({ name, email, password })
-      authService.setToken(response.token)
-      authService.setUser(response.user)
-      set({ user: response.user, isAuthenticated: true })
-    } catch (error: any) {
-      set({ error: error.response?.data?.error || 'Erro ao criar conta' })
+      const response = await api.get('/auth/validate')
+      setUser(response.data.user)
+    } catch (error) {
+      logout()
     } finally {
-      set({ isLoading: false })
+      setLoading(false)
     }
-  },
+  }
 
-  googleAuth: async (token: string, name: string, email: string, picture: string) => {
+  const login = async (email: string, password: string) => {
     try {
-      set({ isLoading: true, error: null })
-      const response = await authService.googleAuth({ token, name, email, picture })
-      authService.setToken(response.token)
-      authService.setUser(response.user)
-      set({ user: response.user, isAuthenticated: true })
+      const response = await api.post('/auth/login', { email, password })
+      const { token, user } = response.data
+
+      localStorage.setItem('token', token)
+      api.defaults.headers.authorization = `Bearer ${token}`
+      setUser(user)
     } catch (error: any) {
-      set({ error: error.response?.data?.error || 'Erro ao autenticar com Google' })
-    } finally {
-      set({ isLoading: false })
+      const message = error.response?.data?.error || 'Erro ao fazer login'
+      throw new Error(message)
     }
-  },
+  }
 
-  logout: () => {
-    authService.logout()
-    set({ user: null, isAuthenticated: false })
-  },
+  const register = async (name: string, email: string, password: string) => {
+    try {
+      const response = await api.post('/auth/register', { name, email, password })
+      const { token, user } = response.data
 
-  clearError: () => set({ error: null })
-})) 
+      localStorage.setItem('token', token)
+      api.defaults.headers.authorization = `Bearer ${token}`
+      setUser(user)
+    } catch (error: any) {
+      const message = error.response?.data?.error || 'Erro ao criar conta'
+      throw new Error(message)
+    }
+  }
+
+  const logout = () => {
+    localStorage.removeItem('token')
+    delete api.defaults.headers.authorization
+    setUser(null)
+  }
+
+  return (
+    <AuthContext.Provider value={{ user, login, register, logout, loading }}>
+      {children}
+    </AuthContext.Provider>
+  )
+}
+
+export function useAuth() {
+  const context = useContext(AuthContext)
+  if (!context) {
+    throw new Error('useAuth deve ser usado dentro de um AuthProvider')
+  }
+  return context
+} 

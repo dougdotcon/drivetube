@@ -78,4 +78,65 @@ async function refreshTokenIfNeeded() {
 }
 
 // Verifica o token a cada 5 minutos
-setInterval(refreshTokenIfNeeded, 300000); 
+setInterval(refreshTokenIfNeeded, 300000);
+
+// Verifica novas notificações a cada 5 minutos
+const NOTIFICATION_CHECK_INTERVAL = 5 * 60 * 1000;
+
+// Função para verificar novas notificações
+async function checkNotifications() {
+    try {
+        // Verifica se as notificações estão ativadas
+        const { notifications } = await chrome.storage.local.get('notifications');
+        if (!notifications) return;
+        
+        // Verifica se o usuário está autenticado
+        const token = await chrome.storage.local.get('token');
+        if (!token) return;
+        
+        // Faz a requisição para a API
+        const response = await fetch('http://localhost:3333/api/notifications', {
+            headers: {
+                'Authorization': `Bearer ${token.token}`
+            }
+        });
+        
+        if (!response.ok) return;
+        
+        const notifications = await response.json();
+        
+        // Exibe as notificações não lidas
+        notifications.forEach(notification => {
+            if (!notification.read) {
+                chrome.notifications.create(notification.id, {
+                    type: 'basic',
+                    iconUrl: '../assets/icon128.png',
+                    title: 'MulaKintola',
+                    message: notification.message
+                });
+            }
+        });
+    } catch (error) {
+        console.error('Erro ao verificar notificações:', error);
+    }
+}
+
+// Inicia o intervalo de verificação
+setInterval(checkNotifications, NOTIFICATION_CHECK_INTERVAL);
+
+// Marca a notificação como lida quando clicada
+chrome.notifications.onClicked.addListener(async (notificationId) => {
+    try {
+        const token = await chrome.storage.local.get('token');
+        if (!token) return;
+        
+        await fetch(`http://localhost:3333/api/notifications/${notificationId}/read`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token.token}`
+            }
+        });
+    } catch (error) {
+        console.error('Erro ao marcar notificação como lida:', error);
+    }
+}); 

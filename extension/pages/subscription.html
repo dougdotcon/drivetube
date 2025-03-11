@@ -207,15 +207,15 @@
         </div>
     </div>
 
-    <script src="../services/stripeService.js"></script>
-    <script src="../services/cryptoVerification.js"></script>
+    <script src="../dist/services/stripeService.js"></script>
+    <script src="../dist/services/cryptoVerification.js"></script>
     <script>
         let currentPlan = null;
+        const stripe = Stripe(chrome.runtime.getManifest().oauth2.client_id);
 
         async function handleStripePayment(planId) {
             try {
                 const sessionId = await StripeService.createCheckoutSession(planId);
-                const stripe = Stripe(process.env.STRIPE_PUBLIC_KEY);
                 await stripe.redirectToCheckout({ sessionId });
             } catch (error) {
                 console.error('Erro no pagamento:', error);
@@ -251,12 +251,11 @@
                     currency
                 );
 
-                if (verification.isValid) {
-                    alert('Pagamento confirmado! Sua assinatura foi ativada.');
+                if (verification.success) {
+                    alert('Pagamento verificado com sucesso! Sua assinatura será ativada em breve.');
                     closeCryptoModal();
-                    window.location.reload();
                 } else {
-                    alert(verification.message);
+                    alert('Erro na verificação: ' + verification.message);
                 }
             } catch (error) {
                 console.error('Erro na verificação:', error);

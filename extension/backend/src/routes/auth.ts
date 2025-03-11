@@ -5,6 +5,16 @@ import { prisma } from '../config/prisma'
 import { oauth2Client, getAuthUrl } from '../lib/google'
 import { loginSchema, registerSchema } from '../types/user'
 import { GoogleUserInfo } from '../types/google'
+import { Router } from 'express'
+import { AuthController } from '../controllers/AuthController'
+
+const router = Router()
+
+router.post('/register', AuthController.register)
+router.post('/login', AuthController.login)
+router.get('/validate', AuthController.validateToken)
+
+export default router
 
 export async function authRoutes(app: FastifyInstance) {
   // Rota de registro

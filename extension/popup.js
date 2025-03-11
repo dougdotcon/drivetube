@@ -1,7 +1,6 @@
 // Estado global
 let currentFolder = null;
 let folderHistory = [];
-let accessToken = null;
 
 // Elementos da UI
 const loginContainer = document.getElementById('loginContainer');
@@ -11,14 +10,16 @@ const videoList = document.getElementById('videoList');
 const backBtn = document.getElementById('backBtn');
 const currentPath = document.getElementById('currentPath');
 const loginBtn = document.getElementById('loginBtn');
+const loginForm = document.getElementById('loginForm');
+const registerLink = document.getElementById('registerLink');
 const settingsBtn = document.getElementById('settingsBtn');
 
 // Inicialização
 document.addEventListener('DOMContentLoaded', async () => {
-    // Verifica se já está autenticado
-    const auth = await chrome.storage.local.get('accessToken');
-    if (auth.accessToken) {
-        accessToken = auth.accessToken;
+    showLoading();
+    const user = await AuthService.validateToken();
+    
+    if (user) {
         showContent();
         loadRootFolder();
     } else {
@@ -26,9 +27,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // Event listeners
-    loginBtn.addEventListener('click', handleLogin);
+    loginForm.addEventListener('submit', handleEmailLogin);
+    loginBtn.addEventListener('click', handleGoogleLogin);
     backBtn.addEventListener('click', handleBack);
     settingsBtn.addEventListener('click', openSettings);
+    registerLink.addEventListener('click', openRegister);
 });
 
 // Funções de UI
@@ -51,7 +54,25 @@ function showLoading() {
 }
 
 // Handlers
-async function handleLogin() {
+async function handleEmailLogin(e) {
+    e.preventDefault();
+    showLoading();
+
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    try {
+        await AuthService.login(email, password);
+        showContent();
+        loadRootFolder();
+    } catch (error) {
+        console.error('Erro no login:', error);
+        showLogin();
+        alert(error.message);
+    }
+}
+
+async function handleGoogleLogin() {
     try {
         showLoading();
         const token = await chrome.identity.getAuthToken({ 
@@ -61,13 +82,15 @@ async function handleLogin() {
                 "https://www.googleapis.com/auth/drive.metadata.readonly"
             ]
         });
-        accessToken = token.token;
-        await chrome.storage.local.set({ accessToken: token.token });
+        
+        // Aqui você pode implementar a lógica para autenticar com o Google
+        // Por enquanto, vamos apenas mostrar o conteúdo
         showContent();
         loadRootFolder();
     } catch (error) {
-        console.error('Erro no login:', error);
+        console.error('Erro no login com Google:', error);
         showLogin();
+        alert('Erro ao fazer login com Google');
     }
 }
 
@@ -80,9 +103,14 @@ async function handleBack() {
 }
 
 function openSettings() {
-    // Abre a página de configurações em uma nova aba
     chrome.tabs.create({
         url: chrome.runtime.getURL('pages/settings.html')
+    });
+}
+
+function openRegister() {
+    chrome.tabs.create({
+        url: 'http://localhost:3000/register'
     });
 }
 
@@ -90,9 +118,10 @@ function openSettings() {
 async function loadRootFolder() {
     try {
         showLoading();
+        const token = await AuthService.getToken();
         const response = await fetch('http://localhost:3333/api/folders/root', {
             headers: {
-                'Authorization': `Bearer ${accessToken}`
+                'Authorization': `Bearer ${token}`
             }
         });
         
@@ -105,6 +134,7 @@ async function loadRootFolder() {
         updatePath();
     } catch (error) {
         console.error('Erro ao carregar pasta raiz:', error);
+        await AuthService.logout();
         showLogin();
     }
 }
@@ -112,9 +142,10 @@ async function loadRootFolder() {
 async function loadFolder(folder) {
     try {
         showLoading();
+        const token = await AuthService.getToken();
         const response = await fetch(`http://localhost:3333/api/folders/${folder.id}/contents`, {
             headers: {
-                'Authorization': `Bearer ${accessToken}`
+                'Authorization': `Bearer ${token}`
             }
         });
         

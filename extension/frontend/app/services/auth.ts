@@ -1,11 +1,7 @@
 'use client'
 
-import axios from 'axios'
+import { api } from '@/lib/api'
 import { User, AuthResponse, LoginData, RegisterData, GoogleAuthData } from '../types/user'
-
-const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL
-})
 
 export async function register(data: RegisterData): Promise<AuthResponse> {
   const response = await api.post<AuthResponse>('/auth/register', data)
@@ -56,9 +52,12 @@ export function isAuthenticated(): boolean {
   return false
 }
 
-export function logout() {
-  if (typeof window !== 'undefined') {
-    localStorage.removeItem('token')
-    localStorage.removeItem('user')
-  }
+export async function validateToken(): Promise<AuthResponse> {
+  const response = await api.get<AuthResponse>('/auth/validate')
+  return response.data
+}
+
+export async function logout(): Promise<void> {
+  localStorage.removeItem('token')
+  delete api.defaults.headers.authorization
 } 

@@ -1,43 +1,35 @@
 {
   "manifest_version": 3,
-  "name": "Mulakintola",
+  "name": "MulaKintola",
   "version": "1.0.0",
-  "description": "Interface amigável para visualização de vídeos e cursos armazenados no Google Drive",
+  "description": "Extensão para gerenciar e assistir vídeos do MulaKintola",
   "permissions": [
-    "storage",
     "identity",
-    "tabs",
-    "alarms"
+    "storage",
+    "notifications",
+    "tabs"
   ],
   "host_permissions": [
-    "http://localhost:3333/*",
-    "https://www.googleapis.com/*",
-    "https://api.stripe.com/*",
-    "https://api.bscscan.com/*",
-    "https://api.etherscan.io/*",
-    "https://blockchain.info/*",
-    "https://api.trongrid.io/*",
-    "https://api.qanx.com/*",
-    "https://api.roninchain.com/*"
+    "http://localhost:3000/*",
+    "http://localhost:3333/*"
   ],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "icons/icon16.png",
-      "32": "icons/icon32.png",
-      "48": "icons/icon48.png",
-      "128": "icons/icon128.png"
+      "16": "assets/icon16.png",
+      "32": "assets/icon32.png",
+      "48": "assets/icon48.png",
+      "128": "assets/icon128.png"
     }
   },
   "icons": {
-    "16": "icons/icon16.png",
-    "32": "icons/icon32.png",
-    "48": "icons/icon48.png",
-    "128": "icons/icon128.png"
+    "16": "assets/icon16.png",
+    "32": "assets/icon32.png",
+    "48": "assets/icon48.png",
+    "128": "assets/icon128.png"
   },
   "background": {
-    "service_worker": "background.js",
-    "type": "module"
+    "service_worker": "background.js"
   },
   "content_scripts": [
     {
@@ -46,7 +38,7 @@
     }
   ],
   "oauth2": {
-    "client_id": "427831277548-jq2u824p38j8d3lchvijfabmeu5c6988.apps.googleusercontent.com",
+    "client_id": "YOUR_CLIENT_ID",
     "scopes": [
       "https://www.googleapis.com/auth/drive.readonly",
       "https://www.googleapis.com/auth/drive.metadata.readonly"

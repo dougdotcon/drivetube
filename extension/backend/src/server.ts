@@ -3,6 +3,7 @@ import cors from '@fastify/cors'
 import { videoRoutes } from './routes/videos'
 import { authRoutes } from './routes/auth'
 import { configRoutes } from './routes/config'
+import courseRoutes from './routes/courses'
 
 export async function createServer(): Promise<FastifyInstance> {
   const app = require('fastify')({
@@ -18,6 +19,7 @@ export async function createServer(): Promise<FastifyInstance> {
   app.register(videoRoutes, { prefix: '/api/videos' })
   app.register(authRoutes, { prefix: '/api/auth' })
   app.register(configRoutes, { prefix: '/api/config' })
+  app.register(courseRoutes, { prefix: '/api/courses' })
 
   return app
 } 

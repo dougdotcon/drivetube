@@ -1,5 +1,17 @@
 {
+  "name": "mulakintola-extension",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "dev": "npm run watch"
+  },
+  "dependencies": {
+    "stripe": "^13.2.0"
+  },
   "devDependencies": {
-    "sharp": "^0.33.5"
+    "@types/chrome": "^0.0.260",
+    "@types/node": "^20.11.24",
+    "typescript": "^5.3.3"
   }
 }

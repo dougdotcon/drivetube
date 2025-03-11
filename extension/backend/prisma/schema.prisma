@@ -11,34 +11,36 @@ datasource db {
 }
 
 model User {
-  id            String   @id @default(uuid())
-  name          String
-  email         String   @unique
-  password      String
-  googleId      String?  @unique
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  lastLoginAt   DateTime?
+  id            String    @id @default(uuid()) @db.VarChar(36)
+  name          String    @db.VarChar(100)
+  email         String    @unique @db.VarChar(100)
+  password      String    @db.VarChar(100)
+  role          Role      @default(USER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
   folders       Folder[]
-  subscriptions Subscription[]
+  videos        Video[]
+  playlists     Playlist[]
+  favorites     Favorite[]
+  subscription  Subscription?
   payments      Payment[]
-
-  videos    Video[]
-  playlists Playlist[]
-  favorites Favorite[]
-
-  @@map("users")
+  courses       Course[]        @relation("CourseCreator")
+  enrollments   Enrollment[]
+  accessRequests AccessRequest[]
 }
 
 model Folder {
-  id            String   @id @default(uuid())
-  name          String
-  googleId      String   @unique
-  userId        String
-  user          User     @relation(fields: [userId], references: [id])
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id            String    @id @default(uuid()) @db.VarChar(36)
+  name          String    @db.VarChar(100)
+  googleId      String    @unique @db.VarChar(100)
+  userId        String    @db.VarChar(36)
+  user          User      @relation(fields: [userId], references: [id])
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
   lastAccessed  DateTime?
+
+  @@index([userId])
+  @@index([googleId])
 }
 
 model Video {
@@ -48,9 +50,9 @@ model Video {
   driveId        String   @map("drive_id") @db.VarChar(100)
   folder         String?  @db.VarChar(100)
   mimeType       String   @map("mime_type") @db.VarChar(50)
-  thumbnailLink  String?  @map("thumbnail_link") @db.VarChar(255)
-  webViewLink    String?  @map("web_view_link") @db.VarChar(255)
-  webContentLink String?  @map("web_content_link") @db.VarChar(255)
+  thumbnailLink  String?  @map("thumbnail_link") @db.VarChar(191)
+  webViewLink    String?  @map("web_view_link") @db.VarChar(191)
+  webContentLink String?  @map("web_content_link") @db.VarChar(191)
   size           String   @db.VarChar(20)
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
@@ -108,31 +110,127 @@ model Favorite {
 }
 
 model Subscription {
-  id                String   @id @default(uuid())
-  userId            String
-  user              User     @relation(fields: [userId], references: [id])
-  provider          String   // "stripe" ou "abacatepay"
-  providerId        String   // ID da assinatura no provedor
-  status            String   // "active", "cancelled", "expired"
-  plan              String   // "basic", "pro", "enterprise"
-  currentPeriodEnd  DateTime
-  cancelAtPeriodEnd Boolean  @default(false)
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  payments          Payment[]
+  id            String    @id @default(uuid()) @db.VarChar(36)
+  userId        String    @unique @db.VarChar(36)
+  user          User      @relation(fields: [userId], references: [id])
+  planId        String    @db.VarChar(100)
+  status        SubscriptionStatus
+  startDate     DateTime  @default(now())
+  endDate       DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  payments      Payment[]
+
+  @@index([userId])
 }
 
 model Payment {
-  id             String       @id @default(uuid())
-  userId         String
+  id             String       @id @default(uuid()) @db.VarChar(36)
+  userId         String       @db.VarChar(36)
   user           User         @relation(fields: [userId], references: [id])
-  subscriptionId String
+  subscriptionId String       @db.VarChar(36)
   subscription   Subscription @relation(fields: [subscriptionId], references: [id])
-  provider       String       // "stripe" ou "abacatepay"
-  providerId     String       // ID do pagamento no provedor
+  provider       String       @db.VarChar(50)
+  providerId     String       @db.VarChar(100)
   amount         Float
-  currency       String
-  status         String       // "succeeded", "failed", "pending"
+  currency       String       @db.VarChar(10)
+  status         String       @db.VarChar(20)
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
+
+  @@index([userId])
+  @@index([subscriptionId])
+}
+
+enum Role {
+  USER
+  ADMIN
+  CONTENT_CREATOR
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  INACTIVE
+  CANCELLED
+  TRIAL
+  PENDING
+}
+
+model Course {
+  id          String    @id @default(uuid()) @db.VarChar(36)
+  name        String    @db.VarChar(100)
+  description String?   @db.Text
+  creatorId   String    @db.VarChar(36)
+  creator     User      @relation("CourseCreator", fields: [creatorId], references: [id])
+  price       Float?
+  status      CourseStatus @default(DRAFT)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  videos      CourseVideo[]
+  enrollments Enrollment[]
+  accessRequests AccessRequest[]
+
+  @@index([creatorId])
+}
+
+model CourseVideo {
+  id        String   @id @default(uuid()) @db.VarChar(36)
+  courseId  String   @db.VarChar(36)
+  videoId   String   @db.VarChar(36)
+  position  Int
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  video     Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([courseId, videoId])
+  @@index([videoId])
+}
+
+model Enrollment {
+  id        String   @id @default(uuid()) @db.VarChar(36)
+  userId    String   @db.VarChar(36)
+  courseId  String   @db.VarChar(36)
+  status    EnrollmentStatus @default(ACTIVE)
+  user      User     @relation(fields: [userId], references: [id])
+  course    Course   @relation(fields: [courseId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, courseId])
+  @@index([courseId])
+}
+
+model AccessRequest {
+  id        String   @id @default(uuid()) @db.VarChar(36)
+  userId    String   @db.VarChar(36)
+  courseId  String   @db.VarChar(36)
+  status    AccessRequestStatus @default(PENDING)
+  message   String?  @db.Text
+  user      User     @relation(fields: [userId], references: [id])
+  course    Course   @relation(fields: [courseId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, courseId])
+  @@index([courseId])
+}
+
+enum CourseStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum EnrollmentStatus {
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum AccessRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
 } 

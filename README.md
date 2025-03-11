@@ -3,7 +3,7 @@
 
   <h1>Mulakintola</h1>
   
-  <p>Interface amigável para visualização de vídeos e cursos armazenados no Google Drive</p>
+  <p>Interface amigável para visualização de vídeos e cursos armazenados no Google Drive, com suporte a Proton Drive e integração com Telegram</p>
 
   <p>
     <a href="https://nodejs.org/en/"><img src="https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js Version" /></a>
@@ -29,6 +29,12 @@
 - 📱 **Design Responsivo** - Interface adaptável para todos os dispositivos
 - 🌓 **Tema Adaptativo** - Suporte a temas claro e escuro
 - 💾 **Cache Local** - Carregamento rápido de conteúdo já visualizado
+- 🔄 **Sincronização Multi-plataforma** - Integração com Proton Drive
+- 🤖 **Bot do Telegram** - Integração para notificações e controle (Beta)
+- 📂 **Explorador de Arquivos** - Acesso a arquivos locais do sistema
+- 🎨 **UI/UX Moderna** - Interface intuitiva com componentes reutilizáveis
+- 🔍 **Busca Avançada** - Pesquisa em arquivos locais e na nuvem
+- 🔔 **Notificações** - Sistema de toast notifications para feedback
 
 ## 🛠️ Tecnologias
 
@@ -44,6 +50,14 @@
 - [React](https://reactjs.org/) - Biblioteca UI
 - [Tailwind CSS](https://tailwindcss.com/) - Framework CSS
 - [TypeScript](https://www.typescriptlang.org/) - Linguagem de programação
+- [Lucide Icons](https://lucide.dev/) - Biblioteca de ícones
+- [Shadcn/ui](https://ui.shadcn.com/) - Componentes UI
+
+### Integrações
+- [Google Drive API](https://developers.google.com/drive) - Armazenamento principal
+- [Proton Drive](https://proton.me/drive) - Armazenamento secundário
+- [Telegram Bot API](https://core.telegram.org/bots/api) - Notificações e controle
+- [Chrome Extension API](https://developer.chrome.com/docs/extensions/) - Extensão do navegador
 
 ## 📋 Requisitos
 
@@ -51,6 +65,8 @@
 - MySQL 8+
 - Conta Google com acesso ao Drive
 - Credenciais do Google Cloud Platform
+- Conta Proton Drive (opcional)
+- Bot do Telegram (opcional)
 
 ## 🚀 Instalação
 
@@ -88,6 +104,14 @@ GOOGLE_CLIENT_ID="seu_client_id"
 GOOGLE_CLIENT_SECRET="seu_client_secret"
 NEXTAUTH_SECRET="seu_nextauth_secret"
 NEXTAUTH_URL="http://localhost:3000"
+
+# Proton Drive (opcional)
+NEXT_PUBLIC_PROTON_DRIVE_API_URL="https://api.proton.me/drive/v1"
+NEXT_PUBLIC_PROTON_DRIVE_CLIENT_ID="seu_client_id"
+NEXT_PUBLIC_PROTON_DRIVE_CLIENT_SECRET="seu_client_secret"
+
+# Telegram Bot (opcional)
+TELEGRAM_BOT_TOKEN="seu_bot_token"
 ```
 
 ## 💻 Desenvolvimento
@@ -102,6 +126,12 @@ npm run dev
 ```bash
 cd frontend
 npm run dev
+```
+
+3. **Construa a Extensão**
+```bash
+cd extension
+npm run build
 ```
 
 Acesse [http://localhost:3000](http://localhost:3000) no seu navegador.
@@ -120,12 +150,19 @@ mulakintola/
 │   ├── 📄 package.json
 │   └── 📄 tsconfig.json
 │
-└── 📂 frontend/
-    ├── 📂 app/
-    │   ├── 📂 components/
-    │   ├── 📂 types/
-    │   └── 📄 page.tsx
-    ├── 📂 public/
+├── 📂 frontend/
+│   ├── 📂 app/
+│   │   ├── 📂 components/
+│   │   ├── 📂 types/
+│   │   └── 📄 page.tsx
+│   ├── 📂 public/
+│   └── 📄 package.json
+│
+└── 📂 extension/
+    ├── 📂 frontend/
+    │   ├── 📂 app/
+    │   └── 📂 components/
+    ├── 📄 manifest.json
     └── 📄 package.json
 ```
 
@@ -143,27 +180,42 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 ## 💡 Sobre o Projeto
 
-O Mulakintola nasceu da necessidade de uma interface intuitiva para consumo de conteúdo educacional armazenado no Google Drive. Embora o Drive seja excelente para armazenamento, sua interface não é otimizada para visualização sequencial de vídeos e cursos.
+O Mulakintola nasceu da necessidade de uma interface intuitiva para consumo de conteúdo educacional armazenado no Google Drive. Com a evolução do projeto, expandimos para suportar múltiplas plataformas de armazenamento e integração com serviços de mensagem.
 
 ### 🎯 Objetivos
 
 - Facilitar a navegação entre módulos e aulas
 - Oferecer experiência similar a plataformas de cursos online
-- Manter a organização e segurança do Google Drive
+- Manter a organização e segurança dos arquivos
 - Proporcionar reprodução de vídeos sem necessidade de download
+- Integrar múltiplas plataformas de armazenamento
+- Fornecer notificações e controle via Telegram
 
-### 🔧 Configuração do Google Cloud Platform
+### 🔧 Configurações Adicionais
 
+#### Google Cloud Platform
 1. Acesse o [Google Cloud Console](https://console.cloud.google.com)
 2. Crie um novo projeto
 3. Ative a Google Drive API
 4. Configure as credenciais OAuth 2.0
-5. Adicione as credenciais ao arquivo `.env.local`
+5. Adicione as credenciais ao arquivo `.env`
+
+#### Proton Drive
+1. Crie uma conta no [Proton Drive](https://proton.me/drive)
+2. Obtenha suas credenciais de API
+3. Configure no arquivo `.env`
+
+#### Telegram Bot
+1. Converse com [@BotFather](https://t.me/botfather) no Telegram
+2. Crie um novo bot e obtenha o token
+3. Configure no arquivo `.env`
 
 ### 📚 Recursos Adicionais
 
 - [Documentação Next.js](https://nextjs.org/docs)
 - [Documentação Google Drive API](https://developers.google.com/drive/api)
+- [Documentação Proton Drive](https://proton.me/business/drive)
+- [Documentação Telegram Bot API](https://core.telegram.org/bots/api)
 - [Guia de Contribuição](CONTRIBUTING.md)
 
 ---
