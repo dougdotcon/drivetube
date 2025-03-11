@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="frontend/assets/img/mulakintola-logo.png" alt="Mulakintola" width="220"/>
+  <img src="extensio/frontend/assets/img/mulakintola-logo.png" alt="Mulakintola" width="220"/>
 
   <h1>Mulakintola</h1>
   
