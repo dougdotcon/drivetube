@@ -5,6 +5,7 @@
 - ✅ Autenticação segura para acesso aos vídeos
 - ✅ Controle de sessão do usuário
 - ✅ Proteção de rotas autenticadas
+- ✅ Integração com Telegram Bot
 
 ## 📁 Gerenciamento de Pastas
 - ✅ Conexão com pasta do Google Drive
@@ -52,18 +53,18 @@
 - ✅ Sistema de rotas dinâmico
 - ✅ Tratamento de erros robusto
 
+## 🤖 Integração Telegram
+- ✅ Bot do Telegram para autenticação
+- ✅ API do Telegram para acesso aos grupos
+- ✅ Sistema de extração de vídeos
+- ✅ Download e armazenamento local
+- ✅ Sistema de notificações
+- ✅ Atualização automática de conteúdo
+- ✅ Transferência automática para Google Drive
+
 ---
 
 # 📝 Funcionalidades Pendentes
-
-## 🤖 Integração Telegram
-- [ ] Bot do Telegram para autenticação
-- [ ] API do Telegram para acesso aos grupos
-- [ ] Sistema de extração de vídeos
-- [ ] Gerenciamento de permissões do grupo
-- [ ] Download e armazenamento local
-- [ ] Sistema de notificações
-- [ ] Atualização automática de conteúdo
 
 ## 💾 Cache por Perfil
 - [ ] Sistema de perfis de usuário
