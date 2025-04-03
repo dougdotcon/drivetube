@@ -1,254 +1,166 @@
-<div align="center">
-  <img src="extension/frontend/assets/img/mulakintola-logo.png" alt="Mulakintola" width="220"/>
+# Mulakintola
 
-  <h1>Mulakintola</h1>
-  
-  <p>Interface amigável para visualização de vídeos e cursos armazenados no Google Drive, com suporte a Proton Drive e integração com Telegram</p>
+Sistema de gerenciamento de vídeos do Google Drive que permite acessar e gerenciar seus vídeos de forma eficiente, com suporte a pagamentos e assinaturas.
 
-  <p>
-    <a href="https://nodejs.org/en/"><img src="https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js Version" /></a>
-    <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-5.0+-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript Version" /></a>
-    <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-14.0+-000000?style=for-the-badge&logo=next.js&logoColor=white" alt="Next.js Version" /></a>
-    <a href="https://www.mysql.com/"><img src="https://img.shields.io/badge/MySQL-8.0+-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL Version" /></a>
-  </p>
+## Funcionalidades
 
-  <p>
-    <a href="#funcionalidades">Funcionalidades</a> •
-    <a href="#tecnologias">Tecnologias</a> •
-    <a href="#instalação">Instalação</a> •
-    <a href="#desenvolvimento">Desenvolvimento</a> •
-    <a href="#sobre-o-projeto">Sobre</a>
-  </p>
-</div>
+- 🔐 **Login Integrado** - Autenticação simplificada com sua conta Google
+- 📁 **Navegação em Pastas** - Acesse suas pastas do Drive facilmente
+- 🎥 **Player Otimizado** - Reproduza vídeos com controles avançados
+- 🌓 **Tema Adaptativo** - Suporte aos temas claro e escuro
+- 💾 **Cache Local** - Carregamento rápido de conteúdo já visualizado
+- 💳 **Pagamentos** - Suporte a pagamentos com cartão (Stripe) e criptomoedas
+- 📱 **Bot Telegram** - Integração com bot do Telegram para notificações
+- 🔄 **Sincronização** - Sincronização automática com o Google Drive
 
-## ✨ Funcionalidades
-
-### 🎥 Vídeos e Mídia
-- **Player Universal** - Reprodução de vídeos do Google Drive, Proton Drive e sistema local
-- **Visualização Local** - Acesso e reprodução de vídeos armazenados no computador
-- **Streaming Otimizado** - Carregamento adaptativo para melhor performance
-- **Controles Avançados** - Velocidade, qualidade, legendas e marcadores
-- **Formatos Suportados** - MP4, MKV, AVI, WebM e outros formatos populares
-- **Miniaturas** - Geração automática de thumbnails para vídeos
-- **Histórico** - Registro de vídeos assistidos e progresso
-
-### 📁 Gerenciamento de Arquivos
-- **Organização Inteligente** - Listagem organizada por pastas e categorias
-- **Multi-plataforma** - Integração com Google Drive e Proton Drive
-- **Explorador Local** - Acesso a arquivos do sistema com interface moderna
-- **Busca Avançada** - Pesquisa em todas as fontes de arquivos
-- **Favoritos** - Marcação de itens para acesso rápido
-
-### 🔐 Segurança e Acesso
-- **Autenticação Segura** - Login via Google OAuth
-- **Permissões** - Controle granular de acesso a arquivos
-- **Criptografia** - Suporte a arquivos criptografados do Proton Drive
-- **Logs** - Registro de atividades e acessos
-
-### 💻 Interface e Usabilidade
-- **Design Responsivo** - Adaptação para todos os dispositivos
-- **Tema Adaptativo** - Modos claro e escuro
-- **Toast Notifications** - Sistema de feedback visual
-- **Atalhos** - Controles de teclado para navegação rápida
-
-### 🔄 Integração e Extensibilidade
-- **Bot Telegram** - Notificações e controle remoto (Beta)
-- **Extensão Chrome** - Acesso rápido via navegador
-- **API Documentada** - Endpoints para integração externa
-
-### ⚡ Performance
-- **Cache Local** - Armazenamento inteligente de conteúdo
-- **Lazy Loading** - Carregamento sob demanda
-- **Compressão** - Otimização de transferência de dados
-
-## 🛠️ Tecnologias
+## Tecnologias
 
 ### Backend
-- [Node.js](https://nodejs.org/) - Ambiente de execução
-- [Fastify](https://www.fastify.io/) - Framework web
-- [MySQL](https://www.mysql.com/) - Banco de dados
-- [JWT](https://jwt.io/) - Autenticação
-- [TypeScript](https://www.typescriptlang.org/) - Linguagem de programação
+- Node.js com TypeScript
+- Express.js para API REST
+- Prisma ORM para banco de dados
+- PostgreSQL como banco de dados principal
+- JWT para autenticação
+- Google Drive API para gerenciamento de arquivos
+- Stripe para pagamentos com cartão
+- Integração com criptomoedas
+- Bot do Telegram para notificações
 
 ### Frontend
-- [Next.js](https://nextjs.org/) - Framework React
-- [React](https://reactjs.org/) - Biblioteca UI
-- [Tailwind CSS](https://tailwindcss.com/) - Framework CSS
-- [TypeScript](https://www.typescriptlang.org/) - Linguagem de programação
-- [Lucide Icons](https://lucide.dev/) - Biblioteca de ícones
-- [Shadcn/ui](https://ui.shadcn.com/) - Componentes UI
+- Next.js 14 com TypeScript
+- TailwindCSS para estilização
+- Next-Auth para autenticação
+- Radix UI para componentes acessíveis
+- React Hook Form para formulários
+- Zod para validação
+- Axios para requisições HTTP
 
-### Integrações
-- [Google Drive API](https://developers.google.com/drive) - Armazenamento principal
-- [Proton Drive](https://proton.me/drive) - Armazenamento secundário
-- [Telegram Bot API](https://core.telegram.org/bots/api) - Notificações e controle
-- [Chrome Extension API](https://developer.chrome.com/docs/extensions/) - Extensão do navegador
+## Instalação
 
-## 📋 Requisitos
+### Pré-requisitos
+- Node.js 18 ou superior
+- PostgreSQL 12 ou superior
+- Docker (opcional)
 
-- Node.js 18+
-- MySQL 8+
-- Conta Google com acesso ao Drive
-- Credenciais do Google Cloud Platform
-- Conta Proton Drive (opcional)
-- Bot do Telegram (opcional)
-
-## 🚀 Instalação
-
-1. **Clone o repositório**
-```bash
-git clone https://github.com/seu-usuario/mulakintola.git
-cd mulakintola
-```
-
-2. **Configure o Backend**
+### Backend
+1. Entre na pasta `backend`:
 ```bash
 cd backend
+```
+
+2. Instale as dependências:
+```bash
 npm install
+```
+
+3. Configure as variáveis de ambiente:
+```bash
 cp .env.example .env
 ```
 
-3. **Configure o Frontend**
+4. Configure o banco de dados:
 ```bash
-cd ../frontend
-npm install
-cp .env.example .env
+npm run db:setup
 ```
 
-4. **Configure as Credenciais**
-
-Edite os arquivos `.env` com suas configurações:
-
-```env
-# Backend
-DATABASE_URL="mysql://user:password@localhost:3306/mulakintola"
-JWT_SECRET="seu_jwt_secret"
-
-# Frontend
-GOOGLE_CLIENT_ID="seu_client_id"
-GOOGLE_CLIENT_SECRET="seu_client_secret"
-NEXTAUTH_SECRET="seu_nextauth_secret"
-NEXTAUTH_URL="http://localhost:3000"
-
-# Proton Drive (opcional)
-NEXT_PUBLIC_PROTON_DRIVE_API_URL="https://api.proton.me/drive/v1"
-NEXT_PUBLIC_PROTON_DRIVE_CLIENT_ID="seu_client_id"
-NEXT_PUBLIC_PROTON_DRIVE_CLIENT_SECRET="seu_client_secret"
-
-# Telegram Bot (opcional)
-TELEGRAM_BOT_TOKEN="seu_bot_token"
-```
-
-## 💻 Desenvolvimento
-
-1. **Inicie o Backend**
+5. Inicie o servidor:
 ```bash
-cd backend
 npm run dev
 ```
 
-2. **Inicie o Frontend**
+### Frontend
+1. Entre na pasta `frontend`:
 ```bash
 cd frontend
+```
+
+2. Instale as dependências:
+```bash
+npm install
+```
+
+3. Configure as variáveis de ambiente:
+```bash
+cp .env.example .env.local
+```
+
+4. Inicie o servidor de desenvolvimento:
+```bash
 npm run dev
 ```
 
-3. **Construa a Extensão**
-```bash
-cd extension
-npm run build
+## Configuração
+
+### Google Cloud
+1. Crie um projeto no [Google Cloud Console](https://console.cloud.google.com)
+2. Ative as seguintes APIs:
+   - Google Drive API
+   - Google OAuth 2.0
+3. Configure as credenciais OAuth 2.0:
+   - Adicione as URIs de redirecionamento autorizadas
+   - Copie o Client ID e Client Secret para o arquivo `.env`
+
+### Stripe
+1. Crie uma conta no [Stripe](https://stripe.com)
+2. Obtenha as chaves de API (Pública e Secreta)
+3. Configure os produtos e preços no dashboard
+4. Adicione as chaves no arquivo `.env`
+
+### Bot do Telegram
+1. Crie um bot através do [@BotFather](https://t.me/botfather)
+2. Obtenha o token do bot
+3. Adicione o token no arquivo `.env`
+
+## Estrutura do Projeto
+
 ```
-
-Acesse [http://localhost:3000](http://localhost:3000) no seu navegador.
-
-## 📁 Estrutura do Projeto
-
-```
-mulakintola/
-├── 📂 backend/
-│   ├── 📂 src/
-│   │   ├── 📂 controllers/
-│   │   ├── 📂 database/
-│   │   ├── 📂 routes/
-│   │   ├── 📂 types/
-│   │   └── 📄 server.ts
-│   ├── 📄 package.json
-│   └── 📄 tsconfig.json
+├── backend/                # Servidor Node.js
+│   ├── src/               # Código fonte do backend
+│   ├── prisma/            # Schemas e migrações do banco
+│   └── telegram_bot/      # Código do bot do Telegram
 │
-├── 📂 frontend/
-│   ├── 📂 app/
-│   │   ├── 📂 components/
-│   │   ├── 📂 types/
-│   │   └── 📄 page.tsx
-│   ├── 📂 public/
-│   └── 📄 package.json
+├── frontend/              # Aplicação Next.js
+│   ├── app/              # Páginas e rotas
+│   ├── components/       # Componentes React
+│   ├── services/        # Serviços e integrações
+│   └── config/          # Configurações
 │
-└── 📂 extension/
-    ├── 📂 frontend/
-    │   ├── 📂 app/
-    │   └── 📂 components/
-    ├── 📄 manifest.json
-    └── 📄 package.json
+└── docs/                 # Documentação adicional
 ```
 
-## 🤝 Contribuição
+## Desenvolvimento
+
+### Backend
+- Servidor roda na porta 3001 por padrão
+- Hot reload ativado em desenvolvimento
+- Logs detalhados em desenvolvimento
+- Validação de tipos com TypeScript
+- Testes com Jest
+
+### Frontend
+- Servidor roda na porta 3000 por padrão
+- Hot reload e Fast Refresh ativos
+- Otimização automática de imagens
+- Suporte a PWA
+- Temas claro e escuro
+
+## Contribuição
 
 1. Faça um fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`)
-3. Faça commit das alterações (`git commit -m 'Adiciona nova feature'`)
-4. Faça push para a branch (`git push origin feature/nova-feature`)
+2. Crie uma branch para sua feature:
+```bash
+git checkout -b feature/nova-feature
+```
+3. Faça commit das alterações:
+```bash
+git commit -m 'feat: adiciona nova feature'
+```
+4. Faça push para a branch:
+```bash
+git push origin feature/nova-feature
+```
 5. Abra um Pull Request
 
-## 📝 Licença
+## Licença
 
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
-## 💡 Sobre o Projeto
-
-O Mulakintola nasceu da necessidade de uma interface intuitiva para consumo de conteúdo educacional armazenado no Google Drive. Com a evolução do projeto, expandimos para suportar múltiplas plataformas de armazenamento e integração com serviços de mensagem.
-
-### 🎯 Objetivos
-
-- Facilitar a navegação entre módulos e aulas
-- Oferecer experiência similar a plataformas de cursos online
-- Manter a organização e segurança dos arquivos
-- Proporcionar reprodução de vídeos sem necessidade de download
-- Integrar múltiplas plataformas de armazenamento
-- Fornecer notificações e controle via Telegram
-
-### 🔧 Configurações Adicionais
-
-#### Google Cloud Platform
-1. Acesse o [Google Cloud Console](https://console.cloud.google.com)
-2. Crie um novo projeto
-3. Ative a Google Drive API
-4. Configure as credenciais OAuth 2.0
-5. Adicione as credenciais ao arquivo `.env`
-
-#### Proton Drive
-1. Crie uma conta no [Proton Drive](https://proton.me/drive)
-2. Obtenha suas credenciais de API
-3. Configure no arquivo `.env`
-
-#### Telegram Bot
-1. Converse com [@BotFather](https://t.me/botfather) no Telegram
-2. Crie um novo bot e obtenha o token
-3. Configure no arquivo `.env`
-
-### 📚 Recursos Adicionais
-
-- [Documentação Next.js](https://nextjs.org/docs)
-- [Documentação Google Drive API](https://developers.google.com/drive/api)
-- [Documentação Proton Drive](https://proton.me/business/drive)
-- [Documentação Telegram Bot API](https://core.telegram.org/bots/api)
-- [Guia de Contribuição](CONTRIBUTING.md)
-
----
-
-<div align="center">
-  <p>Desenvolvido com 💛 por <a href="https://github.com/asimov-tech-solutions">ASIMOV TECH</a></p>
-  
-  <a href="https://github.com/dougdotcon/mulakintola/issues">Reportar Bug</a>
-  •
-  <a href="https://github.com/dougdotcon/mulakintola/issues">Solicitar Feature</a>
-</div>
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes. 

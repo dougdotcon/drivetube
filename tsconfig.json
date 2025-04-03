@@ -10,14 +10,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "outDir": "./dist",
-    "rootDir": "./",
-    "typeRoots": ["./node_modules/@types", "./types"],
+    "rootDir": "./src",
     "lib": ["dom", "dom.iterable", "esnext"]
   },
   "include": [
-    "services/**/*.ts",
-    "config/**/*.ts",
-    "types/**/*.ts"
+    "src/**/*.ts"
   ],
   "exclude": [
     "node_modules"
