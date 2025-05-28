@@ -3,10 +3,48 @@
 import { useState } from 'react'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import { API_URL, API_ROUTES } from '../config/api'
 
 export default function PlanosPage() {
   const { data: session } = useSession()
   const [periodo, setPeriodo] = useState<'mensal' | 'anual'>('mensal')
+  const [isLoading, setIsLoading] = useState<string | null>(null)
+  const router = useRouter()
+
+  const handleCheckout = async (planoNome: string) => {
+    if (!session) {
+      router.push('/login?callbackUrl=/planos')
+      return
+    }
+
+    try {
+      setIsLoading(planoNome)
+      const response = await fetch(`${API_URL}${API_ROUTES.SUBSCRIPTIONS}/checkout`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.accessToken}`
+        },
+        body: JSON.stringify({
+          plano: planoNome,
+          periodo: periodo
+        })
+      })
+
+      if (!response.ok) {
+        throw new Error('Erro ao criar sessão de checkout')
+      }
+
+      const { checkoutUrl } = await response.json()
+      window.location.href = checkoutUrl
+    } catch (error) {
+      console.error('Erro ao processar checkout:', error)
+      alert('Erro ao processar o pagamento. Por favor, tente novamente.')
+    } finally {
+      setIsLoading(null)
+    }
+  }
 
   const planos = [
     {
@@ -135,13 +173,21 @@ export default function PlanosPage() {
                   ))}
                 </ul>
                 <button
+                  onClick={() => handleCheckout(plano.nome)}
+                  disabled={isLoading === plano.nome}
                   className={`w-full py-3 px-6 rounded-xl font-medium transition-colors ${
                     plano.destaque
                       ? 'bg-yellow-400 text-gray-800 hover:bg-yellow-500'
                       : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                  }`}
+                  } disabled:opacity-50 disabled:cursor-not-allowed`}
                 >
-                  Começar agora
+                  {isLoading === plano.nome ? (
+                    <div className="flex items-center justify-center">
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-800"></div>
+                    </div>
+                  ) : (
+                    'Começar agora'
+                  )}
                 </button>
               </div>
             </div>

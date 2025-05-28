@@ -11,7 +11,7 @@ import { useFolderConfig } from '../hooks/useFolderConfig'
 import { useVideoCache } from '../hooks/useVideoCache'
 import Link from 'next/link'
 import { useSavedFolders } from '../hooks/useSavedFolders'
-import { API_ROUTES } from '../config/api'
+import { API_ROUTES, API_URL } from '../config/api'
 
 export default function VideosPage() {
   const { data: session, status } = useSession()
@@ -66,7 +66,7 @@ export default function VideosPage() {
         return
       }
       
-      const response = await fetch(`${API_ROUTES.videos}?folderId=${folder.id}`, {
+      const response = await fetch(`${API_URL}${API_ROUTES.VIDEOS}?folderId=${folder.id}`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${session.accessToken}`
