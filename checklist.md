@@ -108,7 +108,7 @@
   - [x] Lista de espera
   - [x] Planos e assinaturas
   - [x] Middleware de proteção de rotas
-  - [ ] Integração com PIX para pagamentos
+  - [x] Integração com TANOS para pagamentos crypto (USDT)
 
 ### UI/UX
 - [x] Design responsivo
@@ -121,14 +121,16 @@
 ## 📝 Documentação
 
 ### Backend
-- [ ] README.md com instruções de instalação
+- [x] README.md com instruções de instalação
+- [x] Documentação do sistema de pagamentos crypto
+- [x] Documentação da integração TANOS
 - [ ] Documentação das rotas (API)
 - [ ] Documentação do schema do banco de dados
 - [ ] Exemplos de uso da API
 
 ### Frontend
-- [ ] README.md com instruções de instalação
-- [ ] Documentação dos componentes
+- [x] README.md com instruções de instalação
+- [x] Documentação dos componentes (parcial)
 - [ ] Guia de estilo
 - [ ] Exemplos de uso dos componentes
 
@@ -159,6 +161,8 @@
 - [ ] Testar isolamento de dados entre usuários
 
 ### Pagamentos
-- [ ] Implementar integração com PIX
+- [x] Implementar integração com TANOS para pagamentos crypto
+- [x] Suporte a USDT via BEP20 e ERC20
+- [x] Wallet configurada: 0xFf83fE987a944CBe235dea1277d0B7D9B7f78424
 - [ ] Implementar webhook para confirmação de pagamentos
-- [ ] Integrar com Telegram (t.me/trydrivetube) para suporte a pagamentos
+- [ ] Integrar com Telegram (t.me/trydrivetube) para suporte

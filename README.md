@@ -32,7 +32,8 @@
 - 👥 **Multi-usuário** - Suporte para múltiplos usuários com isolamento de dados
 - 💰 **Planos e Assinaturas** - Sistema de planos com diferentes níveis de acesso
 - 📋 **Lista de Espera** - Sistema de lista de espera para novos usuários
-- 💸 **Pagamentos via PIX** - Processamento de pagamentos via PIX
+- 💰 **Pagamentos Crypto** - Processamento de pagamentos em USDT via TANOS
+- 🛡️ **Segurança Blockchain** - Trocas atômicas com tecnologia TANOS
 
 ## 🛠️ Tecnologias
 
@@ -44,6 +45,7 @@
 - [JWT](https://jwt.io/) - Autenticação
 - [TypeScript](https://www.typescriptlang.org/) - Linguagem de programação
 - [Zod](https://zod.dev/) - Validação de dados
+- [TANOS](https://github.com/GustavoStingelin/tanos) - Trocas atômicas Bitcoin/Nostr
 
 ### Frontend
 - [Next.js](https://nextjs.org/) - Framework React
@@ -95,6 +97,12 @@ GOOGLE_CLIENT_ID="seu_client_id"
 GOOGLE_CLIENT_SECRET="seu_client_secret"
 GOOGLE_REDIRECT_URI="http://localhost:3333/auth/google/callback"
 
+# Crypto Payments (TANOS)
+CRYPTO_WALLET_ADDRESS="0xFf83fE987a944CBe235dea1277d0B7D9B7f78424"
+TANOS_API_URL="https://api.tanos.dev"
+BSC_SCAN_API_KEY="seu_bscscan_api_key"
+ETHERSCAN_API_KEY="seu_etherscan_api_key"
+
 # Frontend
 NEXT_PUBLIC_API_URL="http://localhost:3333"
 GOOGLE_CLIENT_ID="seu_client_id"
@@ -140,6 +148,8 @@ drivetube/
 │   │   ├── 📂 database/
 │   │   ├── 📂 middlewares/
 │   │   ├── 📂 routes/
+│   │   ├── 📂 services/
+│   │   │   └── 📄 CryptoPaymentService.ts
 │   │   ├── 📂 types/
 │   │   └── 📄 server.ts
 │   ├── 📄 package.json
@@ -201,6 +211,8 @@ O drivetube nasceu da necessidade de uma interface intuitiva para consumo de con
 - [Documentação Google Drive API](https://developers.google.com/drive/api)
 - [Documentação Prisma](https://www.prisma.io/docs)
 - [Documentação NextAuth.js](https://next-auth.js.org/getting-started/introduction)
+- [Sistema de Pagamentos Crypto](PAGAMENTOS_CRYPTO.md)
+- [Documentação TANOS](tanos/README.md)
 - [Guia de Contribuição](CONTRIBUTING.md)
 - [Changelog](CHANGELOG.md)
 

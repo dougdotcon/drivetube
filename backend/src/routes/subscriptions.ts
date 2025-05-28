@@ -1,6 +1,7 @@
 import { FastifyInstance } from 'fastify'
 import prisma from '../config/prisma'
 import { createSubscriptionSchema, updateSubscriptionSchema } from '../types/subscription'
+import { CryptoPaymentService } from '../services/CryptoPaymentService'
 
 export async function subscriptionRoutes(app: FastifyInstance) {
   // Middleware para verificar autenticação
@@ -93,30 +94,41 @@ export async function subscriptionRoutes(app: FastifyInstance) {
         }
       })
 
+      // Gerar pagamento crypto usando TANOS
+      const cryptoService = new CryptoPaymentService()
+      const cryptoData = await cryptoService.generateCryptoPayment({
+        amount: plan.price,
+        description: `Assinatura ${plan.name} - DriveTube`,
+        expirationMinutes: 1440, // 24 horas
+        payerName: request.user.name,
+        payerEmail: request.user.email,
+        currency: 'USDT',
+        network: 'BEP20' // Padrão BEP20, mas pode ser alterado
+      })
+
       // Criar um pagamento pendente
       const payment = await prisma.payment.create({
         data: {
           subscriptionId: subscription.id,
           amount: plan.price,
-          paymentMethod: 'pix',
+          paymentMethod: 'crypto',
           status: 'pending',
-          pixExpiration: new Date(Date.now() + 24 * 60 * 60 * 1000) // 24 horas
+          pixCode: cryptoData.walletAddress, // Reutilizar campo para wallet address
+          pixExpiration: cryptoData.expiresAt,
+          txId: cryptoData.txId
         }
-      })
-
-      // Gerar código PIX (simulado)
-      const pixCode = `PIX${Math.random().toString(36).substring(2, 15)}${Math.random().toString(36).substring(2, 15)}`
-      
-      await prisma.payment.update({
-        where: { id: payment.id },
-        data: { pixCode }
       })
 
       return reply.code(201).send({
         subscription,
         payment: {
           ...payment,
-          pixCode
+          walletAddress: cryptoData.walletAddress,
+          qrCode: cryptoData.qrCode,
+          expectedAmount: cryptoData.expectedAmount,
+          currency: cryptoData.currency,
+          network: cryptoData.network,
+          tanosSession: cryptoData.tanosSession
         }
       })
     } catch (error: any) {
@@ -247,7 +259,7 @@ export async function subscriptionRoutes(app: FastifyInstance) {
         where: { userId: request.user.id }
       })
 
-      const hasAccess = subscription?.status === 'active' && 
+      const hasAccess = subscription?.status === 'active' &&
                         subscription.endDate > new Date()
 
       return reply.send({ hasAccess })
