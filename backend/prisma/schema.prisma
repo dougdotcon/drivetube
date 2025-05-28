@@ -6,13 +6,11 @@ generator client {
 }
 
 // Seed configuration
-generator seed {
-  provider = "ts-node prisma/seed.ts"
-}
+
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model User {
@@ -50,16 +48,16 @@ model Folder {
 }
 
 model Video {
-  id             String   @id @default(uuid()) @db.VarChar(36)
-  userId         String   @map("user_id") @db.VarChar(36)
-  name           String   @db.VarChar(100)
-  driveId        String   @map("drive_id") @db.VarChar(100)
-  folder         String?  @db.VarChar(100)
-  mimeType       String   @map("mime_type") @db.VarChar(50)
-  thumbnailLink  String?  @map("thumbnail_link") @db.VarChar(255)
-  webViewLink    String?  @map("web_view_link") @db.VarChar(255)
-  webContentLink String?  @map("web_content_link") @db.VarChar(255)
-  size           String   @db.VarChar(20)
+  id             String   @id @default(uuid())
+  userId         String   @map("user_id")
+  name           String
+  driveId        String   @map("drive_id")
+  folder         String?
+  mimeType       String   @map("mime_type")
+  thumbnailLink  String?  @map("thumbnail_link")
+  webViewLink    String?  @map("web_view_link")
+  webContentLink String?  @map("web_content_link")
+  size           String
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
 
@@ -73,10 +71,10 @@ model Video {
 }
 
 model Playlist {
-  id          String   @id @default(uuid()) @db.VarChar(36)
-  userId      String   @map("user_id") @db.VarChar(36)
-  name        String   @db.VarChar(100)
-  description String?  @db.Text
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  name        String
+  description String?
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
 
@@ -88,8 +86,8 @@ model Playlist {
 }
 
 model PlaylistVideo {
-  playlistId String   @map("playlist_id") @db.VarChar(36)
-  videoId    String   @map("video_id") @db.VarChar(36)
+  playlistId String   @map("playlist_id")
+  videoId    String   @map("video_id")
   position   Int
   createdAt  DateTime @default(now()) @map("created_at")
 
@@ -103,8 +101,8 @@ model PlaylistVideo {
 }
 
 model Favorite {
-  userId    String   @map("user_id") @db.VarChar(36)
-  videoId   String   @map("video_id") @db.VarChar(36)
+  userId    String   @map("user_id")
+  videoId   String   @map("video_id")
   createdAt DateTime @default(now()) @map("created_at")
 
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)

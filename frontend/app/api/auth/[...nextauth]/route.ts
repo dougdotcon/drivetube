@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
+import CredentialsProvider from 'next-auth/providers/credentials';
 import type { NextAuthOptions } from 'next-auth';
 
 export const authOptions: NextAuthOptions = {
@@ -15,12 +16,45 @@ export const authOptions: NextAuthOptions = {
           response_type: 'code'
         }
       }
-    })
+    }),
+    // Provider de teste para desenvolvimento
+    ...(process.env.NODE_ENV === 'development' ? [
+      CredentialsProvider({
+        id: 'demo',
+        name: 'Demo User',
+        credentials: {
+          email: { label: 'Email', type: 'email', placeholder: 'demo@drivetube.com' },
+          password: { label: 'Password', type: 'password' }
+        },
+        async authorize(credentials) {
+          // Usuário demo para testes
+          if (credentials?.email === 'demo@drivetube.com' && credentials?.password === 'demo123') {
+            return {
+              id: 'demo-user-id',
+              name: 'Usuário Demo',
+              email: 'demo@drivetube.com',
+              image: 'https://via.placeholder.com/150'
+            }
+          }
+          return null
+        }
+      })
+    ] : [])
   ],
   callbacks: {
     async jwt({ token, account, user }) {
       if (account) {
         token.accessToken = account.access_token;
+
+        // Se for usuário demo, definir permissões especiais
+        if (user?.email === 'demo@drivetube.com') {
+          token.isAdmin = true;
+          token.hasActiveSubscription = true;
+          token.isApprovedWaitlist = true;
+          token.planId = 'demo-plan';
+          token.plan = { name: 'Demo Plan', features: ['Acesso total'] };
+          return token;
+        }
 
         // Fetch user subscription status from our API
         try {
@@ -50,6 +84,12 @@ export const authOptions: NextAuthOptions = {
           }
         } catch (error) {
           console.error('Error fetching user subscription status:', error);
+          // Para usuários não-demo, definir valores padrão em caso de erro
+          if (user?.email !== 'demo@drivetube.com') {
+            token.isAdmin = false;
+            token.hasActiveSubscription = false;
+            token.isApprovedWaitlist = false;
+          }
         }
       }
       return token;
