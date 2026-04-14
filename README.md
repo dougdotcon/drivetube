@@ -2,8 +2,7 @@
 
 <div align="center">
   <img src="frontend/assets/img/drivetube-logo.png" alt="DriveTube" width="220"/>
-
-  <p>A secure and friendly interface for viewing videos and courses stored on Google Drive.</p>
+  <p><strong>Plataforma para distribuir video com controle de acesso, monetizacao e operacao multi-tenant sobre Google Drive.</strong></p>
 
   <p>
     <a href="https://nodejs.org/en/"><img src="https://img.shields.io/badge/Node.js-18+-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node.js Version" /></a>
@@ -13,118 +12,207 @@
   </p>
 
   <p>
-    <a href="#features">Features</a> •
-    <a href="#tech-stack">Tech Stack</a> •
-    <a href="#installation">Installation</a> •
-    <a href="#roadmap">Roadmap</a> •
-    <a href="#about">About</a>
+    <a href="#visao-geral">Visao Geral</a> •
+    <a href="#casos-de-uso-principais">Casos de Uso</a> •
+    <a href="#funcionalidades">Funcionalidades</a> •
+    <a href="#arquitetura">Arquitetura</a> •
+    <a href="#instalacao">Instalacao</a> •
+    <a href="#go-to-market-gtm">Go-to-Market</a>
   </p>
 </div>
 
-## ✨ Features
+## Visao Geral
 
-*   **🔐 Secure Authentication** - Login integration with Google OAuth.
-*   **📁 Intelligent Organization** - Video listing organized by folders.
-*   **🎥 Integrated Player** - Video playback directly within the interface.
-*   **📱 Responsive Design** - Interface adapted for all devices.
-*   **🌓 Adaptive Theme** - Support for light and dark modes.
-*   **💾 Local Cache** - Fast loading of previously viewed content.
-*   **👥 Multi-user Support** - Support for multiple users with data isolation.
-*   **💰 Plans & Subscriptions** - Subscription system with different access levels.
-*   **📋 Waitlist System** - Queue management for new users.
-*   **💰 Crypto Payments** - USDT payment processing via TANOS.
-*   **🛡️ Blockchain Security** - Atomic swaps using TANOS technology.
+O DriveTube e um produto orientado a negocio para empresas e criadores que precisam:
+- hospedar e distribuir videos com controle real do conteudo (Google Drive proprio)
+- monetizar via assinatura, pay-per-view e pagamentos cripto
+- operar com isolamento de dados por cliente (modelo SaaS/multi-tenant)
 
-## 🛠️ Tech Stack
+Em vez de competir de forma direta com marketplaces de curso generalistas, o DriveTube foca em verticais de maior margem e menor concorrencia.
+
+## Casos de Uso Principais
+
+### 1) Micro-SaaS White-Label para Nichos (Oceano Azul)
+Modelo para empreendedores e negocios locais que precisam de uma plataforma propria de treinamento ou cursos pagos.
+
+Exemplos:
+- treinamento de equipes comerciais
+- capacitacao de franquias
+- academias de especializacao (ex.: beleza e estetica)
+
+Valor entregue:
+- marca propria do cliente
+- menor taxa do que plataformas tradicionais
+- controle de base de usuarios e conteudo
+
+### 2) Creator Economy Web3 (Patreon/OnlyFans com privacidade)
+Hub premium para criadores com foco em liberdade de monetizacao e privacidade.
+
+Publicos-alvo:
+- educadores financeiros
+- analistas de cripto
+- podcasters independentes
+- criadores afetados por desmonetizacao em plataformas tradicionais
+
+Modelo:
+- criador publica no proprio Drive
+- DriveTube controla o acesso pago
+- cobranca por assinatura ou pay-per-view
+- microtaxa por transacao para a plataforma
+
+### 3) Portal B2B de Entrega e Aprovacao Audiovisual
+Fluxo profissional para produtoras, videomakers e agencias entregarem e aprovarem conteudo com seguranca comercial.
+
+Diferencial:
+- preview com marca d'agua
+- aprovacao do cliente dentro do portal
+- pagamento final (cripto/tradicional)
+- liberacao automatica do arquivo final em alta resolucao apos confirmacao
+
+### 4) Hub de Onboarding Corporativo
+"Netflix corporativa" para RH e treinamento interno em empresas que ja usam Google Workspace.
+
+Valor entregue:
+- organizacao por pastas e trilhas
+- acompanhamento de progresso por colaborador
+- maior controle sobre treinamentos obrigatorios
+
+## Funcionalidades
+
+### Ja implementadas
+- autenticacao com email/senha e Google OAuth
+- gerenciamento de videos, playlists e favoritos
+- player integrado e interface responsiva
+- planos, assinaturas e lista de espera (waitlist)
+- integracao de pagamentos cripto com TANOS (USDT)
+- base para multiusuario com isolamento de dados
+
+### Em evolucao / roadmap de produto
+- consolidacao do multi-tenant completo (tenant por cliente)
+- dashboard de analytics para criadores e empresas
+- webhook/reconciliacao de pagamentos
+- fluxo de aprovacao audiovisual com escrow operacional
+- relatorios avancados de onboarding corporativo
+
+## Arquitetura
 
 ### Backend
-*   **[Node.js](https://nodejs.org/)** - Runtime environment.
-*   **[Fastify](https://www.fastify.io/)** - Web framework.
-*   **[MySQL](https://www.mysql.com/)** - Database.
-*   **[Prisma](https://www.prisma.io/)** - Database ORM.
-*   **[JWT](https://jwt.io/)** - Authentication.
-*   **[TypeScript](https://www.typescriptlang.org/)** - Programming language.
-*   **[Zod](https://zod.dev/)** - Data validation.
-*   **[TANOS](https://github.com/GustavoStingelin/tanos)** - Bitcoin/Nostr atomic swaps.
+- Node.js + Fastify + TypeScript
+- Prisma ORM
+- MySQL
+- JWT + Zod
+- Integracao TANOS para pagamentos cripto
 
 ### Frontend
-*   **[Next.js](https://nextjs.org/)** - React framework.
-*   **[React](https://reactjs.org/)** - UI library.
-*   **[Tailwind CSS](https://tailwindcss.com/)** - CSS framework.
-*   **[TypeScript](https://www.typescriptlang.org/)** - Programming language.
-*   **[NextAuth.js](https://next-auth.js.org/)** - Authentication for Next.js.
-*   **[Axios](https://axios-http.com/)** - HTTP client.
-*   **[Zustand](https://zustand-demo.pmnd.rs/)** - State management.
+- Next.js (App Router) + React + TypeScript
+- Tailwind CSS
+- NextAuth.js
+- Axios + Zustand
 
-## 📋 Prerequisites
+## Estrutura do Projeto
 
-*   Node.js 18+
-*   MySQL
-
-## 🚀 Installation
-
-> **Note:** Ensure you have a running MySQL instance and the necessary environment variables configured before starting.
-
-1.  **Clone the repository:**
-    bash
-    git clone https://github.com/your-username/drivetube.git
-    cd drivetube
-    
-
-2.  **Install dependencies:**
-    bash
-    npm install
-    
-
-3.  **Environment Setup:**
-    *   Create a `.env` file in the root directory.
-    *   Copy the contents from `.env.example` and fill in your specific values (Database URL, Google OAuth credentials, JWT secrets, etc.).
-
-4.  **Database Setup:**
-    bash
-    npx prisma migrate dev
-    
-
-5.  **Development Server:**
-    bash
-    npm run dev
-    
-
-## 🗺️ Roadmap
-
-*   [x] Google Drive integration
-*   [x] Basic video streaming
-*   [x] Crypto payment gateway (TANOS)
-*   [ ] Enhanced analytics for content creators
-*   [ ] Mobile app (React Native)
-*   [ ] Multi-language support
-
-## 📂 Project Structure
-
-plaintext
+```plaintext
 drivetube/
-├── backend/          # Node.js/Fastify API
-├── frontend/         # Next.js application
-├── docs/             # Documentation
-└── prisma/           # Database schema
+├── backend/      # API Fastify, Prisma, regras de negocio
+├── frontend/     # Aplicacao Next.js
+├── docs/         # Guias e materiais de produto
+├── tanos/        # Integracao e estudos do ecossistema TANOS
+└── screenshots/  # Capturas e apoio visual
+```
 
+## Instalacao
 
-## 🤝 Contributing
+### Pre-requisitos
+- Node.js 18+
+- MySQL ativo
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+### 1. Clonar repositorio
 
-1.  Fork the Project
-2.  Create your Feature Branch (`git checkout -b feature/amazing-feature`)
-3.  Commit your Changes (`git commit -m 'Add some amazing feature'`)
-4.  Push to the Branch (`git push origin feature/amazing-feature`)
-5.  Open a Pull Request
+```bash
+git clone https://github.com/your-username/drivetube.git
+cd drivetube
+```
 
-## 📄 License
+### 2. Instalar dependencias
 
-Distributed under the MIT License. See `LICENSE` for more information.
+```bash
+npm install
+```
 
-## 📞 Contact
+### 3. Configurar ambiente
 
-Your Name - [@yourhandle](https://twitter.com/yourhandle) - email@example.com
+- Criar arquivo `.env` na raiz e nos modulos quando necessario.
+- Preencher variaveis de banco, JWT, Google OAuth e integracoes de pagamento.
 
-Project Link: [https://github.com/your-username/drivetube](https://github.com/your-username/drivetube)
+### 4. Rodar migracoes
+
+```bash
+cd backend
+npx prisma migrate dev
+```
+
+### 5. Subir aplicacao em desenvolvimento
+
+Opcao com Docker:
+
+```bash
+docker compose up --build
+```
+
+Opcao sem Docker (em terminais separados):
+
+```bash
+cd backend
+npm run dev
+```
+
+```bash
+cd frontend
+npm run dev
+```
+
+## Go-to-Market (GTM)
+
+### Estrategia comercial recomendada
+- vender setup + implantacao + manutencao, nao apenas licenca de software
+- iniciar por 1 vertical e escalar com casos de sucesso
+- usar waitlist para gerar escassez e validar demanda
+
+### Modelo de receita sugerido
+- setup fee: R$ 2.000 a R$ 5.000
+- mensalidade: a partir de R$ 300/mes
+- taxa transacional: em assinatura/pay-per-view
+
+### Canais de aquisicao
+- LinkedIn (B2B: RH, agencias, franquias)
+- redes e comunidades de nicho (criadores e beleza)
+- comunidades Web3 para creator economy
+
+## Documentos Relacionados
+
+- [FEATURES.md](FEATURES.md)
+- [checklist.md](checklist.md)
+- [PAGAMENTOS_CRYPTO.md](PAGAMENTOS_CRYPTO.md)
+- [planejamento.md](planejamento.md)
+- [docs/guia-inicio-rapido.md](docs/guia-inicio-rapido.md)
+
+## Roadmap Executivo (Resumo)
+
+- Fase 1: White-label para nicho inicial
+- Fase 2: Creator mode com monetizacao robusta
+- Fase 3: Portal B2B audiovisual com aprovacao + liberacao automatica
+- Fase 4: Onboarding corporativo com analytics
+
+Detalhamento completo no arquivo [planejamento.md](planejamento.md).
+
+## Contribuicao
+
+1. Fork do projeto
+2. Criar branch de feature (`git checkout -b feature/minha-feature`)
+3. Commit (`git commit -m "feat: minha feature"`)
+4. Push (`git push origin feature/minha-feature`)
+5. Abrir Pull Request
+
+## Licenca
+
+Distribuido sob a licenca MIT. Veja [LICENSE](LICENSE).
