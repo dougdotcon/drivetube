@@ -3,8 +3,8 @@ version: '3.8'
 services:
   backend:
     build: ./backend
-    ports:
-      - "3333:3333"
+    expose:
+      - "3333"
     environment:
       - PORT=3333
       - NODE_ENV=development
@@ -32,8 +32,8 @@ services:
 
   frontend:
     build: ./frontend
-    ports:
-      - "3000:3000"
+    expose:
+      - "3000"
     environment:
       - NEXT_PUBLIC_API_URL=http://localhost:3333
       - NEXTAUTH_URL=http://localhost:3000
@@ -47,11 +47,25 @@ services:
       - backend
     networks:
       - drivetube-network
+      - web_public
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=web_public"
+      - "traefik.http.middlewares.drivetube-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.drivetube-https.redirectscheme.permanent=true"
+      - "traefik.http.middlewares.drivetube-addslash.redirectregex.regex=^(https?://[^/]+/drivetube)$$"
+      - "traefik.http.middlewares.drivetube-addslash.redirectregex.replacement=$${1}/"
+      - "traefik.http.routers.drivetube-secure.rule=(Host(`asimovtechsystems.com.br`) || Host(`www.asimovtechsystems.com.br`)) && PathPrefix(`/drivetube`)"
+      - "traefik.http.routers.drivetube-secure.entrypoints=websecure"
+      - "traefik.http.routers.drivetube-secure.middlewares=drivetube-addslash"
+      - "traefik.http.routers.drivetube-secure.tls.certresolver=myresolver"
+      - "traefik.http.routers.drivetube-secure.service=drivetube-svc"
+      - "traefik.http.services.drivetube-svc.loadbalancer.server.port=3000"
 
   postgres:
     image: postgres:14
-    ports:
-      - "5432:5432"
+    expose:
+      - "5432"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -64,4 +78,6 @@ volumes:
 
 networks:
   drivetube-network:
-    driver: bridge 
+    driver: bridge
+  web_public:
+    external: true
